@@ -67,7 +67,10 @@ abstract class MvcLoader {
 			'helpers/mvc_form_helper',
 			'helpers/mvc_html_helper',
 			'shells/mvc_shell',
-			'shells/mvc_shell_dispatcher'
+			'shells/mvc_shell_dispatcher',
+			'renders/mvc_render',
+			'renders/mvc_variable_render',
+			'renders/mvc_mustache_render'
 		);
 		
 		foreach ($files as $file) {
