@@ -90,6 +90,11 @@ class MvcPublicLoader extends MvcLoader {
 		
 		$controller_value = empty($route_defaults['controller']) ? $controller : $route_defaults['controller'];
 		$controller_rules = array();
+		
+		if($rewrite_path == "^/?$")
+		{
+			$rewrite_path = "$";
+		}
 		$controller_rules[$rewrite_path] = 'index.php?mvc_controller='.$controller_value.$query_var_match_string;
 		
 		return $controller_rules;

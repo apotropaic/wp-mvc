@@ -201,7 +201,7 @@ class MvcController {
 		}
 		
 		$this->view_vars = array_merge($this->view_vars, $view_vars);
-		$this->include_view($path, $this->view_vars);
+		$this->render($path, $this->view_vars);
 		$this->view_rendered = true;
 	
 	}
@@ -222,7 +222,7 @@ class MvcController {
 				if (!empty($options['locals'])) {
 					$view_vars = array_merge($view_vars, $options['locals']);
 				}
-				$this->include_view($path, $view_vars);
+				$this->render($path, $view_vars);
 			}
 			return;
 		}
@@ -231,7 +231,7 @@ class MvcController {
 			$view_vars = $options['locals'];
 		}
 		
-		$this->include_view($path, $view_vars);
+		$this->render($path, $view_vars);
 	
 	}
 	
@@ -244,15 +244,15 @@ class MvcController {
 		$this->is_controller = false;
 		$options = array_merge($defaults, $options);
 		ob_start();
-		$this->include_view($path, $options['vars']);
+		$this->render($path, $options['vars']);
 		$string = ob_get_contents();
 		ob_end_clean();
 		$this->is_controller = $is_controller;
 		return $string;
 	}
-	
-	protected function include_view($path, $view_vars=array()) {
-		extract($view_vars);
+
+	protected function render($path,$view_vars=array()){
+		//check if rendering an admin view first then a public view
 		$path = preg_replace('/^admin_([^\/]+)/', 'admin/$1', $path);
 		$filepath = $this->file_includer->find_first_app_file_or_core_file('views/'.$path.'.php');
 		if (!$filepath) {
@@ -262,9 +262,20 @@ class MvcController {
 				MvcError::warning('View "'.$path.'" not found.');
 			}
 		}
-		require $filepath;
+
+		//look for a plugin specific override, otherwise use the default rendering engine
+		$plugin_engine = MvcConfiguration::get('render_engine');
+		$get_engine = MvcInflector::underscore($plugin_engine);
+		if($get_engine){
+			$engine = new $get_engine($this);
+		}
+		else{
+			$engine = new MvcVariableRender($this);
+		}
+
+		$engine->render($filepath, $view_vars);
 	}
-	
+
 	private function set_view_var($key, $value) {
 		if ($key == 'object') {
 			$this->object = $value;

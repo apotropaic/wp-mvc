@@ -1,5 +1,5 @@
-<?php get_header(); ?>
+<?php
 
-<?php $this->render_main_view(); ?>
-
-<?php get_footer(); ?>
+get_header();
+$this->controller->render_main_view();
+get_footer();
