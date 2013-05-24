@@ -2,16 +2,16 @@
 
 class MvcError {
 
-	public function fatal($message) {
+	public static function fatal($message) {
 		self::write('fatal', $message);
 		die();
 	}
 
-	public function warning($message) {
+	public static function warning($message) {
 		self::write('warning', $message);
 	}
 
-	public function notice($message) {
+	public static function notice($message) {
 		self::write('notice', $message);
 	}
 	

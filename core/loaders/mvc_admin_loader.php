@@ -82,7 +82,6 @@ class MvcAdminLoader extends MvcLoader {
 			}
 		}
 
-
 		foreach ($admin_controller_names_ordered as $controller_name) {
 
 			if (isset($admin_pages[$controller_name])) {
@@ -124,7 +123,7 @@ class MvcAdminLoader extends MvcLoader {
 						$top_level_handle,
 						array($this->dispatcher, $method),
 						null,
-						$menu_position
+						$menu_position++
 					);
 				} 
 				else {
