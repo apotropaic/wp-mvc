@@ -16,7 +16,22 @@ class MvcPost extends MvcModel {
 			'foreign_key' => 'post_id'
 		)
 	);
+
+  /**
+   * Let's just display the published items on the front-end.  This can be overriden
+   * in the admin.
+   *
+   * @return void
+   * @author 
+   **/
+	public function __construct()
+  {
+    $this->conditions = array_merge(array(
+      "post_status" => "publish",
+      "post_date <=" => date( "Y-m-d H:i:s" )
+    ), $this->conditions);
+
+    parent::__construct();
+  }
 	
 }
-
-?>
