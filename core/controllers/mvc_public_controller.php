@@ -24,11 +24,14 @@ class MvcPublicController extends MvcController {
 		$this->set_pagination($collection);
 	}
 	
-	public function set_pagination($collection) {
+	public function set_pagination($collection, $url = "") {
 		$params = $this->params;
 		unset($params['page']);
 		unset($params['conditions']);
-		$url = MvcRouter::public_url(array('controller' => $this->name, 'action' => $this->action));
+		if(!$url)
+		{
+			$url = MvcRouter::public_url(array('controller' => $this->name, 'action' => $this->action));
+		}
 		$this->pagination = array(
 			'base' => $url.'%_%',
 			'format' => '?page=%#%',
