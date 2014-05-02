@@ -195,6 +195,7 @@ class MvcDatabaseAdapter {
 			'limit' => $this->get_limit_sql($options)
 		);
 		$sql = implode(' ', $clauses);
+
 		$this->query($sql);
 	}
 	
