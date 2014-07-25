@@ -32,14 +32,8 @@ class MvcDatabase {
 	
 	public function escape($string) {
 		global $wpdb;
-		if($res = mysqli_real_escape_string($wpdb->dbh, $string))
-		{
-			return $res;
-		}
-		else
-		{
-			return mysql_real_escape_string($string);
-		}
+		$res = mysqli_real_escape_string($wpdb->dbh, $string);
+		return $res;
 	}
 	
 	public function escape_array($array) {
